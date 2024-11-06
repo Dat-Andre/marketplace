@@ -3,7 +3,6 @@ use anchor_spl::token_interface::{Mint, TokenInterface};
 
 use crate::{error::MarketplaceError, state::Marketplace};
 
-
 #[derive(Accounts)]
 #[instruction(name: String)]
 pub struct Initialize<'info> {
@@ -37,7 +36,10 @@ pub struct Initialize<'info> {
 
 impl<'info> Initialize<'info> {
     pub fn init(&mut self, name: String, fee: u16, bumps: &InitializeBumps) -> Result<()> {
-        require!(name.len() > 0 && name.len() < 32, MarketplaceError::WayToBig);
+        require!(
+            name.len() > 0 && name.len() < 32,
+            MarketplaceError::WayToBig
+        );
 
         self.marketplace.set_inner(Marketplace {
             admin: self.admin.key(),

@@ -1,5 +1,9 @@
 use anchor_lang::prelude::*;
-use anchor_spl::{associated_token::AssociatedToken, metadata::{MasterEditionAccount, Metadata, MetadataAccount}, token_interface::{Mint, TokenAccount, TokenInterface, TransferChecked, transfer_checked}};
+use anchor_spl::{
+    associated_token::AssociatedToken,
+    metadata::{MasterEditionAccount, Metadata, MetadataAccount},
+    token_interface::{transfer_checked, Mint, TokenAccount, TokenInterface, TransferChecked},
+};
 
 use crate::state::{Listing, Marketplace};
 
@@ -66,13 +70,13 @@ pub struct List<'info> {
 
 impl<'info> List<'info> {
     pub fn create_listing(&mut self, price: u64, bumps: &ListBumps) -> Result<()> {
-        self.listing.set_inner(Listing { 
-            maker: self.maker.key(), 
-            mint: self.maker_mint.key(), 
-            price, 
-            bump: bumps.listing 
+        self.listing.set_inner(Listing {
+            maker: self.maker.key(),
+            mint: self.maker_mint.key(),
+            price,
+            bump: bumps.listing,
         });
-        
+
         Ok(())
     }
     pub fn deposit_nft(&mut self) -> Result<()> {
@@ -88,7 +92,7 @@ impl<'info> List<'info> {
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
 
         transfer_checked(cpi_ctx, 1, 0)?;
-        
+
         Ok(())
     }
 }
