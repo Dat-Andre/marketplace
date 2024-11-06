@@ -16,6 +16,6 @@ pub mod marketplace {
     use super::*;
 
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        initialize::handler(ctx)
+        Ok(())
     }
 }
